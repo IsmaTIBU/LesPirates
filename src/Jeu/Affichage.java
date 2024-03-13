@@ -15,7 +15,7 @@ public class Affichage {
 	}
 
 	public void affichCase(Joueur joueur) {
-		int numCase = joueur.position;
+		int numCase = joueur.getPosition();
 
 		if (numCase == 0) {
 			System.out.println(joueur.getNom() + " t'es à la case initiale.");

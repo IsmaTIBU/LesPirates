@@ -22,11 +22,11 @@ public class Plateau {
 	}
 
 	public boolean verifGagnant(Joueur joueur) {
-		return joueur.position == nbCases.length;
+		return joueur.getPosition() == nbCases.length;
 	}
 
 	public void avanceJoueur(Joueur joueur, int avance) {
-		int recul = verifSomme(joueur.position, avance);
+		int recul = verifSomme(joueur.getPosition(), avance);
 		if (recul == 0) {
 			joueur.avanceCase(avance);
 		} else {
