@@ -19,8 +19,6 @@ public class Affichage {
 
 		if (numCase == 0) {
 			System.out.println(joueur.getNom() + " t'es à la case initiale.");
-		} else if (numCase == 30) {
-			System.out.println(joueur.getNom() + " t'es finalement arrivé à la dernière case!!");
 		} else {
 			System.out.println(joueur.getNom() + " t'es à la case " + numCase);
 		}
