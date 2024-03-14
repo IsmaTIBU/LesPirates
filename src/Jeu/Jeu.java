@@ -18,7 +18,7 @@ public class Jeu {
 
 		while (!gagnant) {
 			for (Joueur joueur : joueurs) {
-				aff.affichCase(joueur);
+				aff.affichCase(plat,joueur);
 				aff.affichDebut();
 				scanner.nextLine();
 				int[] resultats = des.lancerDes();

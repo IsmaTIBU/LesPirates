@@ -14,8 +14,8 @@ public class Affichage {
 		System.out.println("T'as sorti un " + des[0] + " et un " + des[1] + "\n");
 	}
 
-	public void affichCase(Joueur joueur) {
-		int numCase = joueur.getPosition();
+	public void affichCase(Plateau plat, Joueur joueur) {
+		int numCase = plat.getPositionJoueur();
 
 		if (numCase == 0) {
 			System.out.println(joueur.getNom() + " t'es à la case initiale.");
