@@ -24,7 +24,7 @@ public class Jeu {
 				int[] resultats = des.lancerDes();
 				aff.affichDes(resultats);
 				int avance = resultats[0] + resultats[1];
-				plat.avanceJoueur(joueur, avance);
+				plat.avanceJoueur(avance);
 				gagnant = plat.verifGagnant(joueur);
 				if (gagnant) {
 					aff.affichFin(joueur.getNom());

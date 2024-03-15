@@ -30,7 +30,7 @@ public class Plateau {
 		return getPositionJoueur() == nbCases.length;
 	}
 
-	public void avanceJoueur(Joueur joueur, int avance) {
+	public void avanceJoueur(int avance) {
 		positionJoueur = getPositionJoueur();
 		int recul = verifSomme(getPositionJoueur(), avance);
 		if (recul == 0) {
