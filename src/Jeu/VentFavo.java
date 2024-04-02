@@ -1,7 +1,4 @@
-package CasesSpe;
-
-import Jeu.Cases;
-import Jeu.Joueur;
+package Jeu;
 
 public class VentFavo extends Cases {
 	public VentFavo() {

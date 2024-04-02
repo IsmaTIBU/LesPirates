@@ -1,6 +1,5 @@
 package Jeu;
 
-import CasesSpe.*;
 
 public class Affichage {
 	private final String ANSI_RESET = "\u001B[0m";
@@ -52,7 +51,7 @@ public class Affichage {
 
 	public void affichEtourdi(Joueur joueur) {
 		System.out.println("Désolé " + getColorizedName(joueur.getNom(), joueur.getCouleur())
-				+ " à cause du coup de boulé t'es atourdi, te seras pret en " + joueur.getToursImmo() + " tours");
+				+ " à cause du coup de boulé t'es atourdi, tu seras pret(e) en " + joueur.getToursImmo() + " tours");
 	}
 
 	public void affichCanonDerr(Joueur jouActu, Joueur jouAdv) {

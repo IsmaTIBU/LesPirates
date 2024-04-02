@@ -1,7 +1,6 @@
 package Jeu;
 
 import java.util.Scanner;
-import CasesSpe.*;
 
 public class Jeu {
 	public static void main(String[] args) {

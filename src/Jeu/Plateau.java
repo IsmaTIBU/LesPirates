@@ -2,7 +2,6 @@ package Jeu;
 
 import java.util.Random;
 import java.util.HashMap;
-import CasesSpe.*;
 
 public class Plateau {
 	private int[] nbCases;
