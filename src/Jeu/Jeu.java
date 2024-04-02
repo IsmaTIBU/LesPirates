@@ -8,23 +8,30 @@ public class Jeu {
         Des des = new Des();
         Affichage aff = new Affichage();
         Plateau plat = new Plateau();
-        Joueur zipi = new Joueur("Billy","BLEU");
-        Joueur zape = new Joueur("Mandy","VERT");
+        Joueur zipi = new Joueur("Billy", "BLEU");
+        Joueur zape = new Joueur("Mandy", "VERT");
         Scanner scanner = new Scanner(System.in);
 
         Joueur[] joueurs = {zipi, zape};
 
-        plat.rajouterCasillaEspecial(5, new VentFavo());
-        plat.rajouterCasillaEspecial(3, new Canon());
+        plat.rajouterCasillaEspecial(0, new VentFavo());
+        plat.rajouterCasillaEspecial(15, new Canon());
 
         boolean jeuFini = false;
-
+        aff.affPlateau(plat, joueurs);
         while (!jeuFini) {
-            for (Joueur joueurActu : joueurs) {
+        	for (Joueur joueurActu : joueurs) {
                 Joueur joueurAdv = (joueurActu == joueurs[0]) ? joueurs[1] : joueurs[0];
-                aff.affPlateau(plat, joueurs);
+                
+                if (joueurActu.getVie() <= 0) {
+                    aff.affichMort(joueurAdv, joueurActu);
+                    jeuFini = true;
+                    aff.affichFin(joueurAdv.getNom());
+                    break;
+                }
+                
                 aff.affichVie(joueurActu);
-                aff.affichDebut(joueurActu.getNom(),joueurActu.getCouleur());
+                aff.affichDebut(joueurActu.getNom(), joueurActu.getCouleur());
                 scanner.nextLine();
 
                 int[] resul = des.lancerDes();
@@ -32,15 +39,33 @@ public class Jeu {
 
                 plat.avanceJoueur(joueurActu, avance);
                 aff.affichDes(joueurActu, resul);
-                plat.appliquerEffetCasillaEspecial(joueurActu, joueurAdv);
+                aff.affPlateau(plat, joueurs);
 
-                Cases casillaEspecial = plat.getCasillaEspecial(joueurActu.getPositionJoueur());
-                if (casillaEspecial instanceof VentFavo) {
-                    aff.affichVentFavorable(joueurActu);
-                    aff.affichCase(joueurActu);
-                } else if (casillaEspecial instanceof Canon) {
-                    aff.affichCanon(joueurActu, joueurAdv);
-                    aff.affichCase(joueurActu);
+                int positionAvantEffet = joueurActu.getPositionJoueur();
+                Cases casillaEspecial = plat.getCasillaEspecial(positionAvantEffet);
+
+                if (casillaEspecial != null && joueurActu.getVie()>0) {
+                    plat.appliquerEffetCasillaEspecial(joueurActu, joueurAdv);
+
+                    if (casillaEspecial instanceof Canon) {
+                        if (joueurActu.getPositionJoueur() > joueurAdv.getPositionJoueur()) {
+                            aff.affichCanonAvant(joueurActu, joueurAdv);
+                        } else {
+                        	aff.affichCanonDerr(joueurActu, joueurAdv);
+                        }
+                    } else if (casillaEspecial instanceof VentFavo) {
+                        aff.affichVentFavorable(joueurActu);
+                        aff.affichCase(joueurActu);
+                    }
+                }
+
+
+                
+                if (joueurActu.getVie() <= 0) {
+                    aff.affichMort(joueurAdv, joueurActu);
+                    jeuFini = true;
+                    aff.affichFin(joueurAdv.getNom());
+                    break;
                 }
 
                 if (plat.verifGagnant(joueurActu)) {
@@ -48,16 +73,10 @@ public class Jeu {
                     jeuFini = true;
                     break;
                 }
-
-                if (plat.verifMort(joueurActu)) {
-                    aff.affichFin(joueurAdv.getNom());
-                    jeuFini = true;
-                    break;
-                }
             }
         }
-
 
         scanner.close();
     }
 }
+
