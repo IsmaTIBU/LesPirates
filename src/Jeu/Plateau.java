@@ -6,29 +6,24 @@ import CasesSpe.*;
 
 public class Plateau {
 	private int[] nbCases;
-	private HashMap<Integer, Boolean> casesCanon;
-	private HashMap<Integer, VentFavo> casesVentFavo;
+	private HashMap<Integer, Cases> casillasEspeciales;
 
 	public Plateau() {
 	    this.nbCases = new int[30];
-	    this.casesCanon = new HashMap<>();
-	    this.casesVentFavo = new HashMap<>();
+	    this.casillasEspeciales = new HashMap<>();
 	    for (int i = 0; i < nbCases.length; i++) {
 	        nbCases[i] = i + 1;
 	    }
 	}
 
+	
+	public Cases getCasillaEspecial(int position) {
+	    return casillasEspeciales.get(position);
+	}
+
 
 	public int[] getNbCases() {
 		return nbCases;
-	}
-
-	public HashMap<Integer, Boolean> getCasesCanon() {
-		return casesCanon;
-	}
-
-	public HashMap<Integer, VentFavo> getCasesVentFavo() {
-		return casesVentFavo;
 	}
 
 	public int verifSomme(int nbInit, int valDes) {
@@ -62,41 +57,30 @@ public class Plateau {
 		joueur.setPositionJoueur(positionJoueur);
 	}
 
-	public void rajouterCaseCanon(int quantite) {
+	public void rajouterCasillaEspecial(int quantite, Cases casilla) {
 	    Random rand = new Random();
 	    int compteur = 0;
 	    while (compteur < quantite) {
-	        int position = 1 + rand.nextInt(nbCases.length - 1); // Rango ajustado
-	        if (caseDispo(position)) {
-	            casesCanon.put(position, true);
+	        int position = rand.nextInt((29 - 2) + 1) + 2;
+	        if (!casillasEspeciales.containsKey(position)) {
+	            casillasEspeciales.put(position, casilla);
 	            compteur++;
 	        }
 	    }
 	}
 
-	public void rajouterCaseVentFavo(int quantite) {
-	    Random rand = new Random();
-	    int compteur = 0;
-	    while (compteur < quantite) {
-	        int position = rand.nextInt(nbCases.length-1); // Rango ajustado
-	        if (caseDispo(position) && !casesVentFavo.containsKey(position)) {
-	            casesVentFavo.put(position, new VentFavo());
-	            compteur++;
+	
+	public void appliquerEffetCasillaEspecial(Joueur joueurActu, Joueur joueurAdv) {
+	    Cases casilla = casillasEspeciales.get(joueurActu.getPositionJoueur());
+	    if (casilla != null) {
+	        if (casilla instanceof VentFavo) {
+	            ((VentFavo) casilla).appliquerEffet(joueurActu,null);
+	        } else if (casilla instanceof Canon) {
+	            ((Canon) casilla).appliquerEffet(joueurActu, joueurAdv);
 	        }
 	    }
 	}
 
 
-	public boolean caseDispo(int position) {
-		return !casesCanon.containsKey(position) && !casesVentFavo.containsKey(position);
-	}
-
-	public boolean verifCaseCanon(int posicion) {
-		return casesCanon.containsKey(posicion) && casesCanon.get(posicion);
-	}
-
-	public boolean verifCaseVentFavo(int position) {
-		return casesVentFavo.containsKey(position);
-	}
 
 }

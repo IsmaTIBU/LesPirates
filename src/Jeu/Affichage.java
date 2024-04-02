@@ -1,9 +1,10 @@
 package Jeu;
+import CasesSpe.*;
 
 public class Affichage {
 
-	public void affichDebut(String nom) {
-		System.out.println("À ton tour, "+nom+" appuye sur ENTER pour lancer les dés");
+	public void affichDebut(String nom,String couleur) {
+		System.out.println("À ton tour, "+nom+" ("+couleur+")"+" appuye sur ENTER pour lancer les dés");
 	}
 
 	public void affichFin(String nom) {
@@ -47,40 +48,43 @@ public class Affichage {
 
 
 	public void affPlateau(Plateau plat, Joueur[] joueurs) {
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_BLUE = "\u001B[34m";
-        final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_YELLOW = "\u001B[33m";
-        int index = 0;
+	    final String ANSI_RESET = "\u001B[0m";
+	    final String ANSI_BLUE = "\u001B[34m";
+	    final String ANSI_GREEN = "\u001B[32m";
+	    final String ANSI_YELLOW = "\u001B[33m";
+	    final String ANSI_RED = "\u001B[31m";
+	    int index = 1;
 
-        System.out.println("------------------------------------");
-        
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                boolean isPlayerPosition = false;
-                for (Joueur joueur : joueurs) {
-                    if (index == joueur.getPositionJoueur()-1) {
-                        System.out.print((joueur == joueurs[0] ? ANSI_BLUE : ANSI_GREEN) + "[X]\t" + ANSI_RESET);
-                        isPlayerPosition = true;
-                        break;
-                    }
-                }
-                if (!isPlayerPosition) {
-                    if (plat.getCasesCanon().containsKey(index)) {
-                        System.out.print(ANSI_RED + "[C]\t" + ANSI_RESET);
-                    } else if (plat.getCasesVentFavo().containsKey(index)) {
-                        System.out.print(ANSI_YELLOW + "[V]\t" + ANSI_RESET);
-                    } else {
-                        System.out.print("[" + (index+1) + "]\t");
-                    }
-                }
-                index++;
-            }
-            System.out.println("");
-        }
-        System.out.println("\n");
-    }
+	    System.out.println("------------------------------------");
+	    
+	    for (int i = 0; i < 6; i++) {
+	        for (int j = 0; j < 5; j++) {
+	            boolean isPlayerPosition = false;
+	            for (Joueur joueur : joueurs) {
+	                if (index == joueur.getPositionJoueur()) {
+	                    System.out.print((joueur == joueurs[0] ? ANSI_BLUE : ANSI_GREEN) + "[X]\t" + ANSI_RESET);
+	                    isPlayerPosition = true;
+	                    break;
+	                }
+	            }
+	            if (!isPlayerPosition) {
+	                Cases casillaEspecial = plat.getCasillaEspecial(index);
+	                if (casillaEspecial instanceof VentFavo) {
+	                    System.out.print(ANSI_YELLOW + "[V]\t" + ANSI_RESET);
+	                } else if (casillaEspecial instanceof Canon) {
+	                    System.out.print(ANSI_RED + "[C]\t" + ANSI_RESET);
+	                } else {
+	                    System.out.print("[" + index + "]\t");
+	                }
+	            }
+	            index++;
+	        }
+	        System.out.println("");
+	    }
+	    System.out.println("\n");
+	}
+
+
 
 
 }
