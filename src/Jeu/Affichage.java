@@ -50,17 +50,22 @@ public class Affichage {
 		}
 	}
 
+	public void affichEtourdi(Joueur joueur) {
+		System.out.println("Désolé " + getColorizedName(joueur.getNom(), joueur.getCouleur())
+				+ " à cause du coup de boulé t'es atourdi, te seras pret en " + joueur.getToursImmo() + " tours");
+	}
+
 	public void affichCanonDerr(Joueur jouActu, Joueur jouAdv) {
 		if (jouAdv != null) {
 			System.out.println(getColorizedName(jouActu.getNom(), jouActu.getCouleur()) + " se lance contre "
 					+ getColorizedName(jouAdv.getNom(), jouAdv.getCouleur()));
-			affichCase(jouActu); // Asegúrate de que este método también maneje el color si es necesario
+			affichCase(jouActu);
 		}
 	}
 
 	public void affichMort(Joueur joueur1, Joueur joueur2) {
-		System.out.println("Désolé " + getColorizedName(joueur2.getNom(), joueur2.getCouleur()) + ", ils te restent "
-				+ ANSI_RED + 0 + ANSI_RESET + " coueurs, " + getColorizedName(joueur1.getNom(), joueur1.getCouleur())
+		System.out.println("Désolé " + getColorizedName(joueur1.getNom(), joueur1.getCouleur()) + ", ils te restent "
+				+ ANSI_RED + 0 + ANSI_RESET + " coueurs, " + getColorizedName(joueur2.getNom(), joueur2.getCouleur())
 				+ " t'as tué");
 	}
 
@@ -70,9 +75,7 @@ public class Affichage {
 	}
 
 	public void affichVie(Joueur joueur) {
-		final String ANSI_RED = "\u001B[31m";
-		final String ANSI_RESET = "\u001B[0m";
-		System.out.println("-------------------------------------------------------------\n");
+		System.out.println("----------------------------------------------------------------------------\n");
 		System.out.println("T'as " + ANSI_RED + joueur.getVie() + ANSI_RESET + " coueurs réstants");
 	}
 
@@ -100,8 +103,7 @@ public class Affichage {
 		} else if (plat.getCaseSpe(index) instanceof Canon) {
 			return ANSI_RED + "[C]" + ANSI_RESET + "     ";
 		}
-		// Modified to include the cell number for normal cells
-		return String.format("[%d]", cellNumber) + "\t"; // Normal cell with number
+		return String.format("[%d]", cellNumber) + "\t";
 	}
 
 }

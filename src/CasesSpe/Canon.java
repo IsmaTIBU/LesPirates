@@ -15,6 +15,7 @@ public class Canon extends Cases {
                 jouActu.setPositionJoueur(jouAdv.getPositionJoueur());
             } else if(jouActu.getPositionJoueur() >= jouAdv.getPositionJoueur()) {
                 jouAdv.setVie(jouAdv.getVie() - getCoeurs());
+                jouAdv.setToursImmo(2);
             }
         }
     }

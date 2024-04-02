@@ -2,9 +2,10 @@ package Jeu;
 
 public class Joueur {
 	private String nom;
-	private String couleur;
-	private int positionJoueur=0;;
-	private int vie=5;
+    private int positionJoueur = 0;
+    private int vie = 5;
+    private String couleur;
+    private int toursImmo = 0;
 
 	public Joueur(String nom, String couleur) {
 		this.nom = nom;
@@ -33,5 +34,19 @@ public class Joueur {
 	
 	public void setPositionJoueur(int position) {
         this.positionJoueur = position;
+    }
+	
+	public int getToursImmo() {
+        return toursImmo;
+    }
+	
+	public void setToursImmo(int immobiliseTurnos) {
+        this.toursImmo = immobiliseTurnos;
+    }
+	
+	public void decrementerImmo() {
+        if (toursImmo > 0) {
+        	toursImmo--;
+        }
     }
 }

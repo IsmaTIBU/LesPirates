@@ -22,6 +22,12 @@ public class Jeu {
             for (Joueur joueurActu : joueurs) {
                 Joueur joueurAdv = (joueurActu == joueurs[0]) ? joueurs[1] : joueurs[0];
 
+                if (joueurActu.getToursImmo() > 0) {
+                	aff.affichEtourdi(joueurActu);
+                    joueurActu.decrementerImmo();
+                    continue;
+                }
+                
                 aff.affichVie(joueurActu);
                 aff.affichDebut(joueurActu.getNom(), joueurActu.getCouleur());
                 scanner.nextLine();
@@ -33,7 +39,8 @@ public class Jeu {
                 aff.affichDes(joueurActu, resul);
                 aff.affPlateau(plat, joueurs);
                 plat.gestionCasesSpe(joueurActu, joueurAdv, aff);
-
+                
+                
                 if (joueurActu.getVie() <= 0 || joueurAdv.getVie() <= 0) {
                     Joueur gagnant = joueurActu.getVie() > 0 ? joueurActu : joueurAdv;
                     aff.affichMort(gagnant == joueurActu ? joueurAdv : joueurActu, gagnant);
