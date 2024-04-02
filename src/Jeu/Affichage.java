@@ -3,13 +3,33 @@ package Jeu;
 import CasesSpe.*;
 
 public class Affichage {
+	private final String ANSI_RESET = "\u001B[0m";
+	private final String ANSI_BLUE = "\u001B[34m";
+	private final String ANSI_GREEN = "\u001B[32m";
+	private final String ANSI_YELLOW = "\u001B[33m";
+	private final String ANSI_RED = "\u001B[31m";
 
-	public void affichDebut(String nom, String couleur) {
-		System.out.println("À ton tour, " + nom + " (" + couleur + ")" + " appuye sur ENTER pour lancer les dés");
+	private String getColorizedName(String name, String colorCode) {
+		String color;
+		switch (colorCode.toUpperCase()) {
+		case "BLEU":
+			color = ANSI_BLUE;
+			break;
+		case "VERT":
+			color = ANSI_GREEN;
+			break;
+		default:
+			color = ANSI_RESET;
+		}
+		return color + name + ANSI_RESET;
 	}
 
-	public void affichFin(String nom) {
-		System.out.println("Felicitations, c'est " + nom + " qui a gagné");
+	public void affichDebut(String nom, String couleur) {
+		System.out.println("À ton tour, " + getColorizedName(nom, couleur) + " appuye sur ENTER pour lancer les dés");
+	}
+
+	public void affichFin(String nom, String couleur) {
+		System.out.println("Felicitations, c'est " + getColorizedName(nom, couleur) + " qui a gagné");
 	}
 
 	public void affichDes(Joueur joueur, int[] des) {
@@ -19,36 +39,34 @@ public class Affichage {
 
 	public void affichCase(Joueur joueur) {
 		int numCase = joueur.getPositionJoueur();
-
-		if (numCase == 0) {
-			System.out.println(joueur.getNom() + " t'es à la case initiale.");
-		} else {
-			System.out.println(joueur.getNom() + " t'es à la case " + numCase);
-		}
+		System.out.println(
+				getColorizedName(joueur.getNom(), joueur.getCouleur()) + " t'es maintenant à la case " + numCase);
 	}
 
 	public void affichCanonAvant(Joueur jouActu, Joueur jouAdv) {
 		if (jouAdv != null) {
-			System.out.println(jouActu.getNom() + " lance un coup de boulet à " + jouAdv.getNom());
+			System.out.println(getColorizedName(jouActu.getNom(), jouActu.getCouleur()) + " lance un coup de boulet à "
+					+ getColorizedName(jouAdv.getNom(), jouAdv.getCouleur()));
 		}
 	}
 
 	public void affichCanonDerr(Joueur jouActu, Joueur jouAdv) {
 		if (jouAdv != null) {
-			System.out.println(jouActu.getNom() + " se lance contre " + jouAdv.getNom());
-			affichCase(jouActu);
+			System.out.println(getColorizedName(jouActu.getNom(), jouActu.getCouleur()) + " se lance contre "
+					+ getColorizedName(jouAdv.getNom(), jouAdv.getCouleur()));
+			affichCase(jouActu); // Asegúrate de que este método también maneje el color si es necesario
 		}
 	}
 
 	public void affichMort(Joueur joueur1, Joueur joueur2) {
-		final String ANSI_RED = "\u001B[31m";
-		final String ANSI_RESET = "\u001B[0m";
-		System.out.println("Désolé " + joueur2.getNom() + ", ils te restent " + ANSI_RED + 0 + ANSI_RESET + " coueurs, "
-				+ joueur1.getNom() + " t'as tué");
+		System.out.println("Désolé " + getColorizedName(joueur2.getNom(), joueur2.getCouleur()) + ", ils te restent "
+				+ ANSI_RED + 0 + ANSI_RESET + " coueurs, " + getColorizedName(joueur1.getNom(), joueur1.getCouleur())
+				+ " t'as tué");
 	}
 
 	public void affichVentFavorable(Joueur joueur) {
-		System.out.println(joueur.getNom() + " t'as eu de la chance, t'avance de 10 cases!");
+		System.out.println(getColorizedName(joueur.getNom(), joueur.getCouleur())
+				+ " t'as eu de la chance, t'avance de 10 cases!");
 	}
 
 	public void affichVie(Joueur joueur) {
@@ -59,38 +77,31 @@ public class Affichage {
 	}
 
 	public void affPlateau(Plateau plat, Joueur[] joueurs) {
-		final String ANSI_RESET = "\u001B[0m";
-		final String ANSI_BLUE = "\u001B[34m";
-		final String ANSI_GREEN = "\u001B[32m";
-		final String ANSI_YELLOW = "\u001B[33m";
-		final String ANSI_RED = "\u001B[31m";
-		int index = 1;
-
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 5; j++) {
-				boolean isPlayerPosition = false;
-				for (Joueur joueur : joueurs) {
-					if (index == joueur.getPositionJoueur()) {
-						System.out.print((joueur == joueurs[0] ? ANSI_BLUE : ANSI_GREEN) + "[X]\t" + ANSI_RESET);
-						isPlayerPosition = true;
-						break;
-					}
-				}
-				if (!isPlayerPosition) {
-					Cases casillaEspecial = plat.getCasillaEspecial(index);
-					if (casillaEspecial instanceof VentFavo) {
-						System.out.print(ANSI_YELLOW + "[V]\t" + ANSI_RESET);
-					} else if (casillaEspecial instanceof Canon) {
-						System.out.print(ANSI_RED + "[C]\t" + ANSI_RESET);
-					} else {
-						System.out.print("[" + index + "]\t");
-					}
-				}
-				index++;
+				int index = i * 5 + j + 1;
+				String symbol = getSymbolForCell(plat, joueurs, index, index);
+				System.out.print(symbol);
 			}
-			System.out.println("");
+			System.out.println();
 		}
-		System.out.println("\n");
+		System.out.println();
+	}
+
+	private String getSymbolForCell(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
+		for (Joueur joueur : joueurs) {
+			if (joueur.getPositionJoueur() == index) {
+				String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+				return color + "[X]" + ANSI_RESET + "     ";
+			}
+		}
+		if (plat.getCaseSpe(index) instanceof VentFavo) {
+			return ANSI_YELLOW + "[V]" + ANSI_RESET + "     ";
+		} else if (plat.getCaseSpe(index) instanceof Canon) {
+			return ANSI_RED + "[C]" + ANSI_RESET + "     ";
+		}
+		// Modified to include the cell number for normal cells
+		return String.format("[%d]", cellNumber) + "\t"; // Normal cell with number
 	}
 
 }
