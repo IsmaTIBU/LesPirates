@@ -3,26 +3,26 @@ package Jeu;
 import java.util.Scanner;
 
 public class Jeu {
-	public static void main(String[] args) {
-		Des des = new Des();
+    public void partie() {
+        Des des = new Des();
         Affichage aff = new Affichage();
         Plateau plat = new Plateau();
         Joueur zipi = new Joueur("Billy", "BLEU");
         Joueur zape = new Joueur("Mandy", "VERT");
         Scanner scanner = new Scanner(System.in);
-
         Joueur[] joueurs = {zipi, zape};
 
         plat.rajouterCaseSpe(2, new VentFavo());
         plat.rajouterCaseSpe(6, new Canon());
         aff.affPlateau(plat, joueurs);
         boolean jeuFini = false;
-        while (!jeuFini) {
+        
+        do {
             for (Joueur joueurActu : joueurs) {
                 Joueur joueurAdv = (joueurActu == joueurs[0]) ? joueurs[1] : joueurs[0];
 
                 if (joueurActu.getToursImmo() > 0) {
-                	aff.affichEtourdi(joueurActu);
+                    aff.affichEtourdi(joueurActu);
                     joueurActu.decrementerImmo();
                     continue;
                 }
@@ -39,7 +39,6 @@ public class Jeu {
                 aff.affPlateau(plat, joueurs);
                 plat.gestionCasesSpe(joueurActu, joueurAdv, aff);
                 
-                
                 if (joueurActu.getVie() <= 0 || joueurAdv.getVie() <= 0) {
                     Joueur gagnant = joueurActu.getVie() > 0 ? joueurActu : joueurAdv;
                     aff.affichMort(gagnant == joueurActu ? joueurAdv : joueurActu, gagnant);
@@ -54,7 +53,7 @@ public class Jeu {
                     break;
                 }
             }
-        }
+        } while (!jeuFini);
 
         scanner.close();
     }

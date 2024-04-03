@@ -7,6 +7,7 @@ public class Affichage {
 	private final String ANSI_GREEN = "\u001B[32m";
 	private final String ANSI_YELLOW = "\u001B[33m";
 	private final String ANSI_RED = "\u001B[31m";
+    private final String ANSI_ORANGE = "\u001b[38;5;208m";
 
 	private String getColorizedName(String name, String colorCode) {
 		String color;
@@ -28,12 +29,17 @@ public class Affichage {
 	}
 
 	public void affichFin(String nom, String couleur) {
-		System.out.println("Felicitations, c'est " + getColorizedName(nom, couleur) + " qui a gagné");
+		System.out.println(ANSI_ORANGE+"Felicitations, c'est "+ANSI_RESET + getColorizedName(nom, couleur)+ANSI_ORANGE + " qui a gagné"+ANSI_RESET);
 	}
 
 	public void affichDes(Joueur joueur, int[] des) {
+		if(joueur.getPositionJoueur()!=30) {
 		System.out.println("T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
 				+ joueur.getPositionJoueur() + "\n");
+		}else {
+			System.out.println(ANSI_ORANGE+"T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
+					+ joueur.getPositionJoueur()+ ANSI_RESET + "\n");
+		}
 	}
 
 	public void affichCase(Joueur joueur) {
@@ -51,7 +57,7 @@ public class Affichage {
 
 	public void affichEtourdi(Joueur joueur) {
 		System.out.println("Désolé " + getColorizedName(joueur.getNom(), joueur.getCouleur())
-				+ " à cause du coup de boulé t'es atourdi, tu seras pret(e) en " + joueur.getToursImmo() + " tours");
+				+ " à cause du coup de boulé t'es étourdi, tu seras pret(e) en " + joueur.getToursImmo() + " tours");
 	}
 
 	public void affichCanonDerr(Joueur jouActu, Joueur jouAdv) {
@@ -68,7 +74,7 @@ public class Affichage {
 				+ " t'as tué");
 	}
 
-	public void affichVentFavorable(Joueur joueur) {
+	public void affichVentFavo(Joueur joueur) {
 		System.out.println(getColorizedName(joueur.getNom(), joueur.getCouleur())
 				+ " t'as eu de la chance, t'avance de 10 cases!");
 	}
@@ -82,7 +88,7 @@ public class Affichage {
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 5; j++) {
 				int index = i * 5 + j + 1;
-				String symbol = getSymbolForCell(plat, joueurs, index, index);
+				String symbol = actuCase(plat, joueurs, index, index);
 				System.out.print(symbol);
 			}
 			System.out.println();
@@ -90,7 +96,7 @@ public class Affichage {
 		System.out.println();
 	}
 
-	private String getSymbolForCell(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
+	private String actuCase(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
 		for (Joueur joueur : joueurs) {
 			if (joueur.getPositionJoueur() == index) {
 				String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;

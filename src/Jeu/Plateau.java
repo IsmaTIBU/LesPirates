@@ -92,7 +92,7 @@ public class Plateau {
 	                aff.affichCanonDerr(joueurActu, joueurAdv);
 	            }
 	        } else if (casillaEspecial instanceof VentFavo) {
-	            aff.affichVentFavorable(joueurActu);
+	            aff.affichVentFavo(joueurActu);
 	            aff.affichCase(joueurActu);
 	        }
 	    }

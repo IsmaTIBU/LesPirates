@@ -2,7 +2,7 @@ package Jeu;
 
 public class Canon extends Cases {
     public Canon() {
-        super(0, 3);
+        super(0, 2);
     }
 
     @Override
