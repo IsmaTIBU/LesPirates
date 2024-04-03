@@ -2,12 +2,12 @@ package Jeu;
 
 
 public class Affichage {
-	private final String ANSI_RESET = "\u001B[0m";
-	private final String ANSI_BLUE = "\u001B[34m";
-	private final String ANSI_GREEN = "\u001B[32m";
-	private final String ANSI_YELLOW = "\u001B[33m";
-	private final String ANSI_RED = "\u001B[31m";
-    private final String ANSI_ORANGE = "\u001b[38;5;208m";
+	private static final String ANSI_RESET = "\u001B[0m";
+	private static final String ANSI_BLUE = "\u001B[34m";
+	private static final String ANSI_GREEN = "\u001B[32m";
+	private static final String ANSI_YELLOW = "\u001B[33m";
+	private static final String ANSI_RED = "\u001B[31m";
+	private static final String ANSI_ORANGE = "\u001b[38;5;208m";
 
 	private String getColorizedName(String name, String colorCode) {
 		String color;
@@ -80,7 +80,7 @@ public class Affichage {
 	}
 
 	public void affichVie(Joueur joueur) {
-		System.out.println("----------------------------------------------------------------------------\n");
+		System.out.println("-------------------------------------------------------------------------------\n");
 		System.out.println("T'as " + ANSI_RED + joueur.getVie() + ANSI_RESET + " coueurs réstants");
 	}
 
@@ -99,26 +99,23 @@ public class Affichage {
 	private String actuCase(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
 	    boolean player1Here = joueurs[0].getPositionJoueur() == index;
 	    boolean player2Here = joueurs[1].getPositionJoueur() == index;
-	    
+	    String sepa="     ";
 	    if (player1Here && player2Here) {
 	        String player1Color = joueurs[0].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
 	        String player2Color = joueurs[1].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-	        return player1Color + "[X" + ANSI_RESET + player2Color + "X]" + ANSI_RESET + "     ";
+	        return player1Color + "[X" + ANSI_RESET + player2Color + "X]" + ANSI_RESET + sepa;
 	    }
-	    
 	    for (Joueur joueur : joueurs) {
 	        if (joueur.getPositionJoueur() == index) {
 	            String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-	            return color + "[X]" + ANSI_RESET + "     ";
+	            return color + "[X]" + ANSI_RESET + sepa;
 	        }
 	    }
-	    
 	    if (plat.getCaseSpe(index) instanceof VentFavo) {
-	        return ANSI_YELLOW + "[V]" + ANSI_RESET + "     ";
+	        return ANSI_YELLOW + "[V]" + ANSI_RESET + sepa;
 	    } else if (plat.getCaseSpe(index) instanceof Canon) {
-	        return ANSI_RED + "[C]" + ANSI_RESET + "     ";
+	        return ANSI_RED + "[C]" + ANSI_RESET + sepa;
 	    }
-	    
 	    return String.format("[%d]", cellNumber) + "\t";
 	}
 

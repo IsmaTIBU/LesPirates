@@ -46,7 +46,6 @@ public class Plateau {
 
 	public void avanceJoueur(Joueur joueur, int avance) {
 		int positionJoueur = joueur.getPositionJoueur();
-
 		int recul = verifSomme(joueur.getPositionJoueur(), avance);
 		if (recul == 0) {
 			positionJoueur += avance;
@@ -97,6 +96,7 @@ public class Plateau {
 	        }
 	    }
 	}
+
 
 
 

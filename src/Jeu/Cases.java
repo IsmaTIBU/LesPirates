@@ -4,7 +4,7 @@ public abstract class Cases {
     private int deplacement;
     private int coeurs;
     
-    public Cases(int deplacement, int coeurs) {
+    protected Cases(int deplacement, int coeurs) {
         this.deplacement = deplacement;
         this.coeurs = coeurs;
     }
