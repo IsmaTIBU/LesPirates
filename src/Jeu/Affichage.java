@@ -1,6 +1,5 @@
 package Jeu;
 
-
 public class Affichage {
 	private static final String ANSI_RESET = "\u001B[0m";
 	private static final String ANSI_BLUE = "\u001B[34m";
@@ -29,16 +28,17 @@ public class Affichage {
 	}
 
 	public void affichFin(String nom, String couleur) {
-		System.out.println(ANSI_ORANGE+"Felicitations, c'est "+ANSI_RESET + getColorizedName(nom, couleur)+ANSI_ORANGE + " qui a gagné"+ANSI_RESET);
+		System.out.println(ANSI_ORANGE + "Felicitations, c'est " + ANSI_RESET + getColorizedName(nom, couleur)
+				+ ANSI_ORANGE + " qui a gagné" + ANSI_RESET);
 	}
 
 	public void affichDes(Joueur joueur, int[] des) {
-		if(joueur.getPositionJoueur()!=30) {
-		System.out.println("T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
-				+ joueur.getPositionJoueur() + "\n");
-		}else {
-			System.out.println(ANSI_ORANGE+"T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
-					+ joueur.getPositionJoueur()+ ANSI_RESET + "\n");
+		if (joueur.getPositionJoueur() != 30) {
+			System.out.println("T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
+					+ joueur.getPositionJoueur() + "\n");
+		} else {
+			System.out.println(ANSI_ORANGE + "T'as sorti un " + des[0] + " et un " + des[1] + ", t'es à la case "
+					+ joueur.getPositionJoueur() + ANSI_RESET + "\n");
 		}
 	}
 
@@ -65,6 +65,18 @@ public class Affichage {
 			System.out.println(getColorizedName(jouActu.getNom(), jouActu.getCouleur()) + " se lance contre "
 					+ getColorizedName(jouAdv.getNom(), jouAdv.getCouleur()));
 			affichCase(jouActu);
+		}
+	}
+
+	public void affichRhum(Joueur jou) {
+		if(jou.getVie()<5) {
+		System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE + "rhum"
+				+ ANSI_RESET + ", tu récupéres " + ANSI_RED + "2" + ANSI_RESET
+				+ " coeurs de vie mais tu recules de 3 cases...");
+		}else {
+			System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE + "rhum"
+					+ ANSI_RESET + ", t'as tes " + ANSI_RED + "5" + ANSI_RESET
+					+ " coeurs donc tu te limites à le dégouter! Mais t'en boit tellement que tu recules de 3 cases... ");
 		}
 	}
 
@@ -99,23 +111,30 @@ public class Affichage {
 	private String actuCase(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
 	    boolean player1Here = joueurs[0].getPositionJoueur() == index;
 	    boolean player2Here = joueurs[1].getPositionJoueur() == index;
-	    String sepa="     ";
+	    String sepa = "     ";
+
 	    if (player1Here && player2Here) {
 	        String player1Color = joueurs[0].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
 	        String player2Color = joueurs[1].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
 	        return player1Color + "[X" + ANSI_RESET + player2Color + "X]" + ANSI_RESET + sepa;
 	    }
+
 	    for (Joueur joueur : joueurs) {
 	        if (joueur.getPositionJoueur() == index) {
 	            String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
 	            return color + "[X]" + ANSI_RESET + sepa;
 	        }
 	    }
+
 	    if (plat.getCaseSpe(index) instanceof VentFavo) {
 	        return ANSI_YELLOW + "[V]" + ANSI_RESET + sepa;
 	    } else if (plat.getCaseSpe(index) instanceof Canon) {
 	        return ANSI_RED + "[C]" + ANSI_RESET + sepa;
+	    } else if (plat.getCaseSpe(index) instanceof Rhum) {
+	        return ANSI_ORANGE + "[R]" + ANSI_RESET + sepa;
 	    }
+
+	    // Case standard
 	    return String.format("[%d]", cellNumber) + "\t";
 	}
 

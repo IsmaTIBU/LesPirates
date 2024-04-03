@@ -8,18 +8,16 @@ public class Plateau {
 	private HashMap<Integer, Cases> casesSpes;
 
 	public Plateau() {
-	    this.nbCases = new int[30];
-	    this.casesSpes = new HashMap<>();
-	    for (int i = 0; i < nbCases.length; i++) {
-	        nbCases[i] = i + 1;
-	    }
+		this.nbCases = new int[30];
+		this.casesSpes = new HashMap<>();
+		for (int i = 0; i < nbCases.length; i++) {
+			nbCases[i] = i + 1;
+		}
 	}
 
-	
 	public Cases getCaseSpe(int position) {
-	    return casesSpes.get(position);
+		return casesSpes.get(position);
 	}
-
 
 	public int[] getNbCases() {
 		return nbCases;
@@ -56,48 +54,50 @@ public class Plateau {
 	}
 
 	public void rajouterCaseSpe(int quantite, Cases casilla) {
-	    Random rand = new Random();
-	    int compteur = 0;
-	    while (compteur < quantite) {
-	        int position = rand.nextInt((29 - 2) + 1) + 2;
-	        if (!casesSpes.containsKey(position)) {
-	        	casesSpes.put(position, casilla);
-	            compteur++;
-	        }
-	    }
+		Random rand = new Random();
+		int compteur = 0;
+		while (compteur < quantite) {
+			int position = rand.nextInt((29 - 2) + 1) + 2;
+			if (!casesSpes.containsKey(position)) {
+				casesSpes.put(position, casilla);
+				compteur++;
+			}
+		}
 	}
 
-	
 	public void appliquerEffetCaseSpe(Joueur joueurActu, Joueur joueurAdv) {
-	    Cases casilla = casesSpes.get(joueurActu.getPositionJoueur());
-	    if (casilla != null) {
-	        if (casilla instanceof VentFavo) {
-	            ((VentFavo) casilla).appliquerEffet(joueurActu,null);
-	        } else if (casilla instanceof Canon) {
-	            ((Canon) casilla).appliquerEffet(joueurActu, joueurAdv);
+	    Cases cases = casesSpes.get(joueurActu.getPositionJoueur());
+	    if (cases != null) {
+	        if (cases instanceof VentFavo) {
+	            ((VentFavo) cases).appliquerEffet(joueurActu, joueurAdv);
+	        } else if (cases instanceof Canon) {
+	            ((Canon) cases).appliquerEffet(joueurActu, joueurAdv);
+	        } else if (cases instanceof Rhum) {
+	            ((Rhum) cases).appliquerEffet(joueurActu, joueurAdv);
 	        }
 	    }
 	}
-	
+
+
 	public void gestionCasesSpe(Joueur joueurActu, Joueur joueurAdv, Affichage aff) {
-	    int positionActuelle = joueurActu.getPositionJoueur();
-	    Cases casillaEspecial = getCaseSpe(positionActuelle);
-	    if (casillaEspecial != null && joueurActu.getVie() > 0) {
-	        appliquerEffetCaseSpe(joueurActu, joueurAdv);
-	        if (casillaEspecial instanceof Canon) {
-	            if (joueurActu.getPositionJoueur() > joueurAdv.getPositionJoueur()) {
-	                aff.affichCanonAvant(joueurActu, joueurAdv);
-	            } else {
-	                aff.affichCanonDerr(joueurActu, joueurAdv);
-	            }
-	        } else if (casillaEspecial instanceof VentFavo) {
-	            aff.affichVentFavo(joueurActu);
-	            aff.affichCase(joueurActu);
-	        }
-	    }
+		int positionActuelle = joueurActu.getPositionJoueur();
+		Cases caseSpe = getCaseSpe(positionActuelle);
+		if (caseSpe != null && joueurActu.getVie() > 0) {
+			appliquerEffetCaseSpe(joueurActu, joueurAdv);
+			if (caseSpe instanceof Canon) {
+				if (joueurActu.getPositionJoueur() > joueurAdv.getPositionJoueur()) {
+					aff.affichCanonAvant(joueurActu, joueurAdv);
+				} else {
+					aff.affichCanonDerr(joueurActu, joueurAdv);
+				}
+			} else if (caseSpe instanceof VentFavo) {
+				aff.affichVentFavo(joueurActu);
+				aff.affichCase(joueurActu);
+			}else if(caseSpe instanceof Rhum) {
+				aff.affichRhum(joueurActu);
+				aff.affichCase(joueurActu);
+			}
+		}
 	}
-
-
-
 
 }
