@@ -97,18 +97,34 @@ public class Affichage {
 	}
 
 	private String actuCase(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
-		for (Joueur joueur : joueurs) {
-			if (joueur.getPositionJoueur() == index) {
-				String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-				return color + "[X]" + ANSI_RESET + "     ";
-			}
-		}
-		if (plat.getCaseSpe(index) instanceof VentFavo) {
-			return ANSI_YELLOW + "[V]" + ANSI_RESET + "     ";
-		} else if (plat.getCaseSpe(index) instanceof Canon) {
-			return ANSI_RED + "[C]" + ANSI_RESET + "     ";
-		}
-		return String.format("[%d]", cellNumber) + "\t";
+	    boolean player1Here = joueurs[0].getPositionJoueur() == index;
+	    boolean player2Here = joueurs[1].getPositionJoueur() == index;
+	    
+	    // Si ambos jugadores están en la misma casilla
+	    if (player1Here && player2Here) {
+	        String player1Color = joueurs[0].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+	        String player2Color = joueurs[1].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+	        return player1Color + "[X" + ANSI_RESET + player2Color + "X]" + ANSI_RESET + "     ";
+	    }
+	    
+	    // Para un solo jugador en la casilla
+	    for (Joueur joueur : joueurs) {
+	        if (joueur.getPositionJoueur() == index) {
+	            String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+	            return color + "[X]" + ANSI_RESET + "     ";
+	        }
+	    }
+	    
+	    // Para casillas especiales
+	    if (plat.getCaseSpe(index) instanceof VentFavo) {
+	        return ANSI_YELLOW + "[V]" + ANSI_RESET + "     ";
+	    } else if (plat.getCaseSpe(index) instanceof Canon) {
+	        return ANSI_RED + "[C]" + ANSI_RESET + "     ";
+	    }
+	    
+	    // Casilla vacía con número
+	    return String.format("[%2d]", cellNumber) + "\t";
 	}
+
 
 }
