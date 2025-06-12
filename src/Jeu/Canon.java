@@ -8,11 +8,13 @@ public class Canon extends Cases {
     @Override
     public void appliquerEffet(Joueur jouActu, Joueur jouAdv) {
         if (jouAdv != null) {
-            if(jouActu.getPositionJoueur() < jouAdv.getPositionJoueur()) {
-                jouActu.setPositionJoueur(jouAdv.getPositionJoueur());
-            } else if(jouActu.getPositionJoueur() >= jouAdv.getPositionJoueur()) {
+            if (jouAdv.getPositionJoueur() > jouActu.getPositionJoueur()) {
+                // Atacar al adversario que está adelante
                 jouAdv.setVie(jouAdv.getVie() - getCoeurs());
                 jouAdv.setToursImmo(2);
+            } else {
+                // Si el adversario está atrás o en la misma posición, avanzo hacia él
+                jouActu.setPositionJoueur(jouAdv.getPositionJoueur());
             }
         }
     }

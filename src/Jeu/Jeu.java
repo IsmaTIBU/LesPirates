@@ -5,16 +5,17 @@ import java.util.Scanner;
 public class Jeu {
 	public void partie() {
 		Des des = new Des();
-        Affichage aff = new Affichage();
-        Plateau plat = new Plateau();
-        Joueur zipi = new Joueur("Billy", "BLEU");
-        Joueur zape = new Joueur("Mandy", "VERT");
-        Scanner scanner = new Scanner(System.in);
-        Joueur[] joueurs = {zipi, zape};
-		
-		plat.rajouterCaseSpe(2, new VentFavo());
-		plat.rajouterCaseSpe(5, new Canon());
-		plat.rajouterCaseSpe(2, new Rhum());
+		Affichage aff = new Affichage();
+		Plateau plat = new Plateau();
+		Joueur zipi = new Joueur("Billy", "BLEU");
+		Joueur zape = new Joueur("Mandy", "VERT");
+		Scanner scanner = new Scanner(System.in);
+		Joueur[] joueurs = { zipi, zape };
+
+		// Configurar casillas especiales
+		plat.rajouterCaseSpe(2, VentFavo.class);
+		plat.rajouterCaseSpe(5, Canon.class);
+		plat.rajouterCaseSpe(2, Rhum.class);
 
 		aff.affPlateau(plat, joueurs);
 		boolean jeuFini = false;
@@ -22,6 +23,14 @@ public class Jeu {
 		do {
 			for (Joueur joueurActu : joueurs) {
 				Joueur joueurAdv = (joueurActu == joueurs[0]) ? joueurs[1] : joueurs[0];
+
+				// 🔧 VERIFICAR SI EL JUGADOR ACTUAL ESTÁ MUERTO ANTES DE SU TURNO
+				if (joueurActu.getVie() <= 0) {
+					aff.affichMort(joueurActu, joueurAdv);
+					aff.affichFin(joueurAdv.getNom(), joueurAdv.getCouleur());
+					jeuFini = true;
+					break;
+				}
 
 				if (joueurActu.getToursImmo() > 0) {
 					aff.affichEtourdi(joueurActu);
@@ -40,11 +49,28 @@ public class Jeu {
 					aff.affPlateau(plat, joueurs);
 				}
 
-				if (joueurActu.getVie() <= 0 || joueurAdv.getVie() <= 0 || plat.verifGagnant(joueurActu)) {
+				// 🔧 VERIFICAR CONDICIONES DE FIN - EN EL ORDEN CORRECTO
+				
+				// 1️⃣ PRIMERO: ¿El jugador actual murió?
+				// ✅ CÓDIGO CORREGIDO (BUENO):
+				// Verificar muerte PRIMERO
+				if (joueurActu.getVie() <= 0) {
+					aff.affichMort(joueurActu, joueurAdv);
+					aff.affichFin(joueurAdv.getNom(), joueurAdv.getCouleur());
 					jeuFini = true;
-					Joueur gagnant = joueurActu.getVie() > 0 ? joueurActu : joueurAdv;
-					aff.affichMort(gagnant == joueurActu ? joueurAdv : joueurActu, gagnant);
-					aff.affichFin(gagnant.getNom(), gagnant.getCouleur());
+					break;
+				}
+				if (joueurAdv.getVie() <= 0) {
+					aff.affichMort(joueurAdv, joueurActu);
+					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());
+					jeuFini = true;
+					break;
+				}
+
+				// Verificar victoria por meta DESPUÉS (sin mensaje de muerte)
+				if (plat.verifGagnant(joueurActu)) {
+					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());  // SOLO felicitación
+					jeuFini = true;
 					break;
 				}
 			}
@@ -52,5 +78,4 @@ public class Jeu {
 
 		scanner.close();
 	}
-
 }

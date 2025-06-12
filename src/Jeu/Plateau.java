@@ -53,51 +53,56 @@ public class Plateau {
 		joueur.setPositionJoueur(positionJoueur);
 	}
 
-	public void rajouterCaseSpe(int quantite, Cases casilla) {
+	// 🔧 CORREGIDO: Crear nuevas instancias para cada posición
+	public void rajouterCaseSpe(int quantite, Class<? extends Cases> tipoCasilla) {
 		Random rand = new Random();
 		int compteur = 0;
 		while (compteur < quantite) {
 			int position = rand.nextInt((29 - 2) + 1) + 2;
 			if (!casesSpes.containsKey(position)) {
-				casesSpes.put(position, casilla);
-				compteur++;
+				try {
+					// Crear nueva instancia para cada posición
+					Cases nuevaCasilla = tipoCasilla.getDeclaredConstructor().newInstance();
+					casesSpes.put(position, nuevaCasilla);
+					compteur++;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	public void appliquerEffetCaseSpe(Joueur joueurActu, Joueur joueurAdv) {
-	    Cases cases = casesSpes.get(joueurActu.getPositionJoueur());
-	    if (cases != null) {
-	        if (cases instanceof VentFavo) {
-	            ((VentFavo) cases).appliquerEffet(joueurActu, joueurAdv);
-	        } else if (cases instanceof Canon) {
-	            ((Canon) cases).appliquerEffet(joueurActu, joueurAdv);
-	        } else if (cases instanceof Rhum) {
-	            ((Rhum) cases).appliquerEffet(joueurActu, joueurAdv);
-	        }
-	    }
+		Cases cases = casesSpes.get(joueurActu.getPositionJoueur());
+		if (cases != null) {
+			cases.appliquerEffet(joueurActu, joueurAdv);
+		}
 	}
-
 
 	public void gestionCasesSpe(Joueur joueurActu, Joueur joueurAdv, Affichage aff) {
 		int positionActuelle = joueurActu.getPositionJoueur();
 		Cases caseSpe = getCaseSpe(positionActuelle);
 		if (caseSpe != null && joueurActu.getVie() > 0) {
-			appliquerEffetCaseSpe(joueurActu, joueurAdv);
 			if (caseSpe instanceof Canon) {
-				if (joueurActu.getPositionJoueur() > joueurAdv.getPositionJoueur()) {
-					aff.affichCanonAvant(joueurActu, joueurAdv);
+				aff.affichCanonAvant(joueurActu, joueurAdv);
+			}
+			
+			appliquerEffetCaseSpe(joueurActu, joueurAdv);
+			
+			if (caseSpe instanceof Canon) {
+				// Verificar si el adversario fue atacado
+				if (joueurAdv.getToursImmo() > 0) {
+					aff.affichEtourdi(joueurAdv);
 				} else {
 					aff.affichCanonDerr(joueurActu, joueurAdv);
 				}
 			} else if (caseSpe instanceof VentFavo) {
 				aff.affichVentFavo(joueurActu);
 				aff.affichCase(joueurActu);
-			}else if(caseSpe instanceof Rhum) {
+			} else if (caseSpe instanceof Rhum) {
 				aff.affichRhum(joueurActu);
 				aff.affichCase(joueurActu);
 			}
 		}
 	}
-
 }

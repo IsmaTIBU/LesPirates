@@ -28,8 +28,8 @@ public class Affichage {
 	}
 
 	public void affichFin(String nom, String couleur) {
-		System.out.println(ANSI_ORANGE + "Felicitations, c'est " + ANSI_RESET + getColorizedName(nom, couleur)
-				+ ANSI_ORANGE + " qui a gagné" + ANSI_RESET);
+		System.out.println(ANSI_ORANGE + "Félicitations, c'est " + ANSI_RESET + getColorizedName(nom, couleur)
+				+ ANSI_ORANGE + " qui a gagné!" + ANSI_RESET);
 	}
 
 	public void affichDes(Joueur joueur, int[] des) {
@@ -57,7 +57,7 @@ public class Affichage {
 
 	public void affichEtourdi(Joueur joueur) {
 		System.out.println("Désolé " + getColorizedName(joueur.getNom(), joueur.getCouleur())
-				+ " à cause du coup de boulé t'es étourdi, tu seras pret(e) en " + joueur.getToursImmo() + " tours");
+				+ " à cause du coup de boulet t'es étourdi, tu seras prêt(e) en " + joueur.getToursImmo() + " tour(s)");
 	}
 
 	public void affichCanonDerr(Joueur jouActu, Joueur jouAdv) {
@@ -69,34 +69,37 @@ public class Affichage {
 	}
 
 	public void affichRhum(Joueur jou) {
-		if(jou.getVie()<5) {
-		System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE + "rhum"
-				+ ANSI_RESET + ", tu récupéres " + ANSI_RED + "2" + ANSI_RESET
-				+ " coeurs de vie mais tu recules de 3 cases...");
-		}else {
-			System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE + "rhum"
-					+ ANSI_RESET + ", t'as tes " + ANSI_RED + "5" + ANSI_RESET
-					+ " coeurs donc tu te limites à le dégouter! Mais t'en boit tellement que tu recules de 3 cases... ");
+		if (jou.getVie() < 5) {
+			System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE
+					+ "rhum" + ANSI_RESET + ", tu récupères " + ANSI_RED + "2" + ANSI_RESET
+					+ " cœurs de vie mais tu recules de 3 cases...");
+		} else {
+			System.out.println(getColorizedName(jou.getNom(), jou.getCouleur()) + " t'as trouvé du " + ANSI_ORANGE
+					+ "rhum" + ANSI_RESET + ", t'as tes " + ANSI_RED + "5" + ANSI_RESET
+					+ " cœurs donc tu te limites à le déguster! Mais t'en bois tellement que tu recules de 3 cases...");
 		}
 	}
 
-	public void affichMort(Joueur joueur1, Joueur joueur2) {
-		System.out.println("Désolé " + getColorizedName(joueur1.getNom(), joueur1.getCouleur()) + ", ils te restent "
-				+ ANSI_RED + 0 + ANSI_RESET + " coueurs, " + getColorizedName(joueur2.getNom(), joueur2.getCouleur())
-				+ " t'as tué");
+	// 🔧 CORREGIDO: Este método SOLO se llama cuando realmente hay muerte (0 corazones)
+	public void affichMort(Joueur joueurMuerto, Joueur joueurGanador) {
+		System.out.println("💀 " + getColorizedName(joueurMuerto.getNom(), joueurMuerto.getCouleur()) 
+				+ " ha perdido todos sus corazones! Le quedan " + ANSI_RED + joueurMuerto.getVie() + ANSI_RESET 
+				+ " corazón(es). " + getColorizedName(joueurGanador.getNom(), joueurGanador.getCouleur())
+				+ " gana por eliminación!");
 	}
 
 	public void affichVentFavo(Joueur joueur) {
 		System.out.println(getColorizedName(joueur.getNom(), joueur.getCouleur())
-				+ " t'as eu de la chance, t'avance de 10 cases!");
+				+ " t'as eu de la chance, t'avances de 10 cases!");
 	}
 
 	public void affichVie(Joueur joueur) {
-		System.out.println("-------------------------------------------------------------------------------\n");
-		System.out.println("T'as " + ANSI_RED + joueur.getVie() + ANSI_RESET + " coueurs réstants");
+		System.out.println("-------------------------------------------------------------------------------");
+		System.out.println("T'as " + ANSI_RED + joueur.getVie() + ANSI_RESET + " cœur(s) restant(s)");
 	}
 
 	public void affPlateau(Plateau plat, Joueur[] joueurs) {
+		System.out.println("\n=== PLATEAU DE JEU ===");
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 5; j++) {
 				int index = i * 5 + j + 1;
@@ -105,38 +108,37 @@ public class Affichage {
 			}
 			System.out.println();
 		}
+		System.out.println("Légende: [V]=Vent Favorable, [C]=Canon, [R]=Rhum, [X]=Joueur");
 		System.out.println();
 	}
 
 	private String actuCase(Plateau plat, Joueur[] joueurs, int index, int cellNumber) {
-	    boolean player1Here = joueurs[0].getPositionJoueur() == index;
-	    boolean player2Here = joueurs[1].getPositionJoueur() == index;
-	    String sepa = "     ";
+		boolean player1Here = joueurs[0].getPositionJoueur() == index;
+		boolean player2Here = joueurs[1].getPositionJoueur() == index;
+		String sepa = "  ";
 
-	    if (player1Here && player2Here) {
-	        String player1Color = joueurs[0].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-	        String player2Color = joueurs[1].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-	        return player1Color + "[X" + ANSI_RESET + player2Color + "X]" + ANSI_RESET + sepa;
-	    }
+		if (player1Here && player2Here) {
+			String player1Color = joueurs[0].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+			String player2Color = joueurs[1].getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+			return "[" + player1Color + "X" + ANSI_RESET + player2Color + "X" + ANSI_RESET + "]" + sepa;
+		}
 
-	    for (Joueur joueur : joueurs) {
-	        if (joueur.getPositionJoueur() == index) {
-	            String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
-	            return color + "[X]" + ANSI_RESET + sepa;
-	        }
-	    }
+		for (Joueur joueur : joueurs) {
+			if (joueur.getPositionJoueur() == index) {
+				String color = joueur.getCouleur().equals("BLEU") ? ANSI_BLUE : ANSI_GREEN;
+				return "[" + color + "X" + ANSI_RESET + "]" + sepa;
+			}
+		}
 
-	    if (plat.getCaseSpe(index) instanceof VentFavo) {
-	        return ANSI_YELLOW + "[V]" + ANSI_RESET + sepa;
-	    } else if (plat.getCaseSpe(index) instanceof Canon) {
-	        return ANSI_RED + "[C]" + ANSI_RESET + sepa;
-	    } else if (plat.getCaseSpe(index) instanceof Rhum) {
-	        return ANSI_ORANGE + "[R]" + ANSI_RESET + sepa;
-	    }
+		if (plat.getCaseSpe(index) instanceof VentFavo) {
+			return "[" + ANSI_YELLOW + "V" + ANSI_RESET + "]" + sepa;
+		} else if (plat.getCaseSpe(index) instanceof Canon) {
+			return "[" + ANSI_RED + "C" + ANSI_RESET + "]" + sepa;
+		} else if (plat.getCaseSpe(index) instanceof Rhum) {
+			return "[" + ANSI_ORANGE + "R" + ANSI_RESET + "]" + sepa;
+		}
 
-	    // Case standard
-	    return String.format("[%d]", cellNumber) + "\t";
+		// Case standard
+		return String.format("[%2d]", cellNumber) + sepa;
 	}
-
-
 }
