@@ -1,70 +1,70 @@
-# 🏴‍☠️ Les Pirates - Juego de Mesa en Java
+# 🏴‍☠️ Les Pirates - Java Board Game
 
-Un juego de mesa por turnos para 2 jugadores ambientado en el mundo de los piratas, desarrollado en Java con interfaz de terminal.
+A turn-based board game for 2 players set in the pirate world, developed in Java with terminal interface.
 
-## 🎯 Objetivo del Juego
+## 🎯 Game Objective
 
-**Ganar siendo el primero en llegar a la casilla 30** o eliminando al adversario (reduciendo sus corazones a 0).
+**Win by being the first to reach square 30** or by eliminating your opponent (reducing their hearts to 0).
 
-## ⚔️ Mecánicas de Juego
+## ⚔️ Game Mechanics
 
-### Jugadores
-- **Billy** (Azul) vs **Mandy** (Verde)
-- Cada jugador inicia con **5 corazones** de vida
-- Se turnan para lanzar 2 dados y avanzar
+### Players
+- **Billy** (Blue) vs **Mandy** (Green)
+- Each player starts with **5 hearts** of health
+- Take turns rolling 2 dice and moving forward
 
-### Tablero
-- **30 casillas** dispuestas en cuadrícula 6x5
-- **Casillas especiales** colocadas aleatoriamente:
-  - **[V] Vent Favorable** (2 casillas): Avanza 10 casillas extra
-  - **[C] Canon** (5 casillas): Ataca o persigue al enemigo
-  - **[R] Rhum** (2 casillas): +2 corazones pero retrocede 3 casillas
+### Board
+- **30 squares** arranged in a 6x5 grid
+- **Special squares** placed randomly:
+  - **[V] Favorable Wind** (2 squares): Move 10 extra squares
+  - **[C] Cannon** (5 squares): Attack or chase the enemy
+  - **[R] Rum** (2 squares): +2 hearts but move back 3 squares
 
-### Efectos de Casillas Especiales
+### Special Square Effects
 
-#### 🌪️ Vent Favorable
-- **Efecto**: Avanzas 10 casillas adicionales
-- **Beneficio**: Acelera tu llegada a la meta
+#### 🌪️ Favorable Wind
+- **Effect**: Move 10 additional squares
+- **Benefit**: Accelerates your progress to the goal
 
-#### 💣 Canon
-- **Si el enemigo está adelante**: Lo atacas (-2 corazones, 2 turnos inmóvil)
-- **Si el enemigo está atrás**: Avanzas hasta su posición
+#### 💣 Cannon
+- **If enemy is ahead**: Attack them (-2 hearts, 2 turns immobilized)
+- **If enemy is behind**: Advance to their position
 
-#### 🍺 Rhum
-- **Beneficio**: Recuperas 2 corazones (máximo 5)
-- **Penalización**: Retrocedes 3 casillas
-- **Límite**: No puedes tener más de 5 corazones
+#### � Rum
+- **Benefit**: Recover 2 hearts (max 5)
+- **Penalty**: Move back 3 squares
+- **Limit**: Cannot have more than 5 hearts
 
-## 🎮 Cómo Jugar
+## 🎮 How to Play
 
-1. **Lanzar dados**: Presiona ENTER en tu turno
-2. **Avanzar**: Te mueves automáticamente según la suma de los dados
-3. **Efectos**: Las casillas especiales se activan automáticamente
-4. **Victoria**: Llega a la casilla 30 o elimina al adversario
+1. **Roll dice**: Press ENTER on your turn
+2. **Move**: Automatically advance based on dice sum
+3. **Effects**: Special squares activate automatically
+4. **Victory**: Reach square 30 or eliminate opponent
 
-## 🏆 Condiciones de Victoria
+## 🏆 Win Conditions
 
-- **Victoria por llegada**: Primer jugador en alcanzar la casilla 30
-- **Victoria por eliminación**: Reducir los corazones del enemigo a 0
+- **Victory by arrival**: First player to reach square 30
+- **Victory by elimination**: Reduce opponent's hearts to 0
 
-## 🛠️ Estructura del Código
+## 🛠️ Code Structure
 
-### Clases Principales
-- **`Control.java`**: Punto de entrada del programa
-- **`Jeu.java`**: Lógica principal del juego y bucle de turnos
-- **`Joueur.java`**: Representa a cada jugador (posición, vida, estado)
-- **`Plateau.java`**: Maneja el tablero y casillas especiales
-- **`Affichage.java`**: Gestiona toda la visualización y mensajes
+### Main Classes
+- **`Control.java`**: Program entry point
+- **`Jeu.java`**: Core game logic and turn loop
+- **`Joueur.java`**: Represents each player (position, health, status)
+- **`Plateau.java`**: Manages board and special squares
+- **`Affichage.java`**: Handles all display and messages
 
-### Sistema de Casillas
-- **`Cases.java`**: Clase abstracta base para casillas especiales
-- **`Canon.java`**: Implementa la lógica de ataque/persecución
-- **`Rhum.java`**: Implementa recuperación de vida con penalización
-- **`VentFavo.java`**: Implementa avance extra
+### Square System
+- **`Cases.java`**: Abstract base class for special squares
+- **`Canon.java`**: Implements attack/chase logic
+- **`Rhum.java`**: Implements health recovery with penalty
+- **`VentFavo.java`**: Implements extra movement
 
-### Utilidades
-- **`Des.java`**: Generador de números aleatorios para los dados
+### Utilities
+- **`Des.java`**: Random number generator for dice
 
-### Prerrequisitos
-- Java Development Kit (JDK) 8 o superior
+### Prerequisites
+- Java Development Kit (JDK) 8 or higher
 - Terminal/PowerShell
