@@ -12,7 +12,7 @@ public class Jeu {
 		Scanner scanner = new Scanner(System.in);
 		Joueur[] joueurs = { zipi, zape };
 
-		// Configurar casillas especiales
+		// 🔧 CORREGIDO: Usar el nuevo método que crea instancias separadas
 		plat.rajouterCaseSpe(2, VentFavo.class);
 		plat.rajouterCaseSpe(5, Canon.class);
 		plat.rajouterCaseSpe(2, Rhum.class);
@@ -24,10 +24,16 @@ public class Jeu {
 			for (Joueur joueurActu : joueurs) {
 				Joueur joueurAdv = (joueurActu == joueurs[0]) ? joueurs[1] : joueurs[0];
 
-				// 🔧 VERIFICAR SI EL JUGADOR ACTUAL ESTÁ MUERTO ANTES DE SU TURNO
+				// 🔧 CORREGIDO: Verificar condiciones de fin antes del turno
 				if (joueurActu.getVie() <= 0) {
 					aff.affichMort(joueurActu, joueurAdv);
 					aff.affichFin(joueurAdv.getNom(), joueurAdv.getCouleur());
+					jeuFini = true;
+					break;
+				}
+
+				if (plat.verifGagnant(joueurActu)) {
+					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());
 					jeuFini = true;
 					break;
 				}
@@ -49,17 +55,14 @@ public class Jeu {
 					aff.affPlateau(plat, joueurs);
 				}
 
-				// 🔧 VERIFICAR CONDICIONES DE FIN - EN EL ORDEN CORRECTO
-				
-				// 1️⃣ PRIMERO: ¿El jugador actual murió?
-				// ✅ CÓDIGO CORREGIDO (BUENO):
-				// Verificar muerte PRIMERO
+				// 🔧 CORREGIDO: Verificar condiciones de fin después del turno
 				if (joueurActu.getVie() <= 0) {
 					aff.affichMort(joueurActu, joueurAdv);
 					aff.affichFin(joueurAdv.getNom(), joueurAdv.getCouleur());
 					jeuFini = true;
 					break;
 				}
+
 				if (joueurAdv.getVie() <= 0) {
 					aff.affichMort(joueurAdv, joueurActu);
 					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());
@@ -67,9 +70,8 @@ public class Jeu {
 					break;
 				}
 
-				// Verificar victoria por meta DESPUÉS (sin mensaje de muerte)
 				if (plat.verifGagnant(joueurActu)) {
-					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());  // SOLO felicitación
+					aff.affichFin(joueurActu.getNom(), joueurActu.getCouleur());
 					jeuFini = true;
 					break;
 				}
