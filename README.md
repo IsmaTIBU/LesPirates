@@ -6,7 +6,7 @@ A turn-based board game for 2 players set in the pirate world, developed in Java
 
 **Win by being the first to reach square 30** or by eliminating your opponent (reducing their hearts to 0).
 
-## ⚔Game Mechanics
+## Game Mechanics
 
 ### Players
 - **Billy** (Blue) vs **Mandy** (Green)
