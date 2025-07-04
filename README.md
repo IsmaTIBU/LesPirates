@@ -2,11 +2,11 @@
 
 A turn-based board game for 2 players set in the pirate world, developed in Java with terminal interface.
 
-## 🎯 Game Objective
+## Game Objective
 
 **Win by being the first to reach square 30** or by eliminating your opponent (reducing their hearts to 0).
 
-## ⚔️ Game Mechanics
+## ⚔Game Mechanics
 
 ### Players
 - **Billy** (Blue) vs **Mandy** (Green)
@@ -22,32 +22,32 @@ A turn-based board game for 2 players set in the pirate world, developed in Java
 
 ### Special Square Effects
 
-#### 🌪️ Favorable Wind
+#### Favorable Wind
 - **Effect**: Move 10 additional squares
 - **Benefit**: Accelerates your progress to the goal
 
-#### 💣 Cannon
+#### Cannon
 - **If enemy is ahead**: Attack them (-2 hearts, 2 turns immobilized)
 - **If enemy is behind**: Advance to their position
 
-#### � Rum
+#### Rum
 - **Benefit**: Recover 2 hearts (max 5)
 - **Penalty**: Move back 3 squares
 - **Limit**: Cannot have more than 5 hearts
 
-## 🎮 How to Play
+## How to Play
 
 1. **Roll dice**: Press ENTER on your turn
 2. **Move**: Automatically advance based on dice sum
 3. **Effects**: Special squares activate automatically
 4. **Victory**: Reach square 30 or eliminate opponent
 
-## 🏆 Win Conditions
+## Win Conditions
 
 - **Victory by arrival**: First player to reach square 30
 - **Victory by elimination**: Reduce opponent's hearts to 0
 
-## 🛠️ Code Structure
+## Code Structure
 
 ### Main Classes
 - **`Control.java`**: Program entry point
