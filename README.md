@@ -1,4 +1,6 @@
-# 🏴‍☠️ Les Pirates - Java Board Game
+[Clickez ici pour lire le document traduit au français](fr_README.md)
+
+# Les Pirates - Java Board Game
 
 A turn-based board game for 2 players set in the pirate world, developed in Java with terminal interface.
 
