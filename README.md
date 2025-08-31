@@ -1,4 +1,8 @@
-[Clickez ici pour lire le document traduit au français](fr_README.md)
+<div align="left">
+  <a href="fr_README.md">
+    <img src="https://img.shields.io/badge/lang-fr-blue">
+  </a>
+</div>
 
 # Les Pirates - Java Board Game
 
